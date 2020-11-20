@@ -1,5 +1,7 @@
 import React from 'react'
+import {BrowserRouter as Router,Switch,Route} from "react-router-dom"
 const fetch=require('node-fetch')
+
 function PostItem(post){
     return <li>{post.props.content}</li>
 }
@@ -14,7 +16,8 @@ class Post extends React.Component{
        posts:[]
    }
     async componentDidMount(){
-        const postdata=await fetch(`http://localhost:3001/posts/${this.props.forumid}`)
+        const {match : {params}} = this.props
+        const postdata=await fetch(`http://localhost:3001/posts/${params.forumid}`)
         const postlist=await postdata.json()
         this.setState({posts: this.state.posts.concat(postlist)})
 
@@ -24,9 +27,9 @@ class Post extends React.Component{
         
         return(
             
-            <ul key={this.props.forum}>
+            <ul >
             {this.state.posts.map((post)=> (
-                <PostItem key={this.props.forum} props={post}/>
+                <Route path={`/forums/${this.props.forum}/:postid`} render={(props)=> (<PostItem {...props} key={this.props.forum} props={post}/>)} />
                 )
             )}
             </ul>
