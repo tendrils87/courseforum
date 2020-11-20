@@ -1,10 +1,12 @@
 import React from 'react'
+import Post from './posts'
+import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom"
 const fetch=require('node-fetch')
 
 
 class Forum extends React.Component{
-   constructor(props) {
-       super(props)
+   constructor(props,{match}) {
+       super()
    }
    state = {
        forums:[]
@@ -17,14 +19,19 @@ class Forum extends React.Component{
 
     render(){
         return(
-            <nav>
-            <ul>
-            {this.state.forums.map((forum)=> (
-                <li data-id={forum.id} onClick={this.props.forumselect}>{forum.forumname}</li>
-                )
-            )}
-            </ul>
-            </nav>
+
+            <div>
+                <ul>
+                    {this.state.forums.map((forum)=> (
+                        <div>
+                        <li><Link to={`/forum/${forum.id}`}>{forum.forumname}</Link></li>
+                        </div>
+                    )
+                    )}
+            
+                </ul>
+            </div>
+
         )
     }
 }

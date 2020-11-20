@@ -27,7 +27,12 @@
 .App-link {
   color: #61dafb;
 }
-
+.comment{
+  text-align: left;
+}
+.commentheader{
+  text-align: left;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

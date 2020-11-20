@@ -43,8 +43,13 @@ const addComment = (req, res) =>  {
             if(err){
                 throw err;
             }
-            res.send("Comment added.");
         })
+        pool.query("UPDATE comments SET children=true WHERE commentid=$1", [comment.parentid], (err,result) => {
+            if(err){
+                throw err;
+            }
+        })
+        res.send("Comment added."); 
     } else{
         res.status(400).send("Comment failed.");
     }
