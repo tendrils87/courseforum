@@ -1,6 +1,7 @@
 import React from 'react'
 import Comment from './comments'
 import {BrowserRouter as Router,Switch,Link, Route} from "react-router-dom"
+
 const fetch=require('node-fetch')
 
 class Post extends React.Component{
@@ -10,22 +11,22 @@ class Post extends React.Component{
         posts:[]
     }
    }
-   
+
     async componentDidMount(){
         const { match: { params } } = this.props;
         const postdata=await fetch(`http://localhost:3001/posts/${params.forumid}`)
         const postlist=await postdata.json()
         this.setState({posts: this.state.posts.concat(postlist)})
-
     }
 
     render(){
-        
         return(
             <div>
             {this.state.posts.map((post)=> (
                 <div>
-                <li><Link to={`/forums/${post.forumid}/${post.postid}`}>{post.content}</Link></li>
+                    <li>
+                        <Link to={`/forums/${post.forumid}/${post.postid}`}>{post.content}</Link>
+                    </li>
                 </div>
                 )
             )}

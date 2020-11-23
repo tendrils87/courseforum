@@ -8,7 +8,6 @@ class CommentForm extends React.Component {
     state = {
         viewable: false,
         content: ""
-
     }
     handleClick(){
         this.setState({viewable: !this.state.viewable})
@@ -18,7 +17,6 @@ class CommentForm extends React.Component {
         this.setState({content: e.target.value})
     }
     async handleSubmit(e){
-        e.preventDefault()
         var comment= {  userid:this.props.userid.toString(),
                         parentid:this.props.parentid.toString(),
                         postid:this.props.postid.toString(),
@@ -28,20 +26,27 @@ class CommentForm extends React.Component {
             method: 'POST',
             body:JSON.stringify(comment),
             headers: { 'Content-Type': 'application/json' }
-        } ).then(()=>this.props.handler)
+        } )
+        this.props.fetcher()
         this.setState({viewable : false})
-
     }
     render(){
         return(
-            <div>
-            <h5 onClick={this.handleClick.bind(this)}>reply</h5>
-            {this.state.viewable &&
-            <div>
-            <input placeholder="Reply" value={this.state.content} onChange={this.handleChange.bind(this)}></input>
-            <button onClick={this.handleSubmit.bind(this)}>Submit</button>
-            </div>
-            }
+            <div className="commentbottombar">
+                {this.props.loggedIn ?
+                <div id="replytext" onClick={this.handleClick.bind(this)}>reply</div>
+                :
+                <div id="replytextloggedout">log in to reply</div>
+                }
+                    {this.state.viewable &&
+                        <div >
+                            <form>
+                            <textarea className="replybox" placeholder="Reply" value={this.state.content} onChange={this.handleChange.bind(this)}></textarea><br></br>
+                            <div id="replybutton"><button onClick={this.handleSubmit.bind(this)}>Submit</button></div>
+                            </form>
+                        </div>
+                    }
+
             </div>
         )
     }

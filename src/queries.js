@@ -1,3 +1,5 @@
+
+const fetch = require('node-fetch')
 const Pool = require('pg').Pool
 const pool = new Pool({
     user: 'postgres',
@@ -7,6 +9,82 @@ const pool = new Pool({
     port: 5432
 });
 
+const loginCheck = async (req,res) => {
+    if(req.cookies){
+        if(req.cookies.type==='teacher'){
+            const login = { userid: req.cookies.userid,
+                            password: req.cookies.password
+            }
+            const logincreds = await fetch('teacherdb', {
+                method: 'POST',
+                body: JSON.stringify(login),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            } )
+            if(logincreds){
+                res.send(true)
+            }else{
+                res.send(false)
+            }
+        }else if(req.cookies.type==='student'){
+            const login = { userid: req.cookies.userid,
+                            password: req.cookies.password
+                            }
+            const logincreds = await fetch('studentdb', {
+                method: 'POST',
+                body: JSON.stringify(login),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            })
+            if(logincreds){
+                res.send(true)
+            }else{
+                res.send(false)
+            }
+        }
+        else {
+            res.cookie('loggedIn','false').cookie('userid','none').cookie('password','none').cookie('type','none').send(false)
+        }
+    }
+
+}
+
+const performLogin = async (req,res) => {
+    console.log(req.params.type)
+    if(req.params.type==='teacher'){
+        const login = { userid: req.params.userid,
+                        password: req.params.password
+                        }
+        const logincreds = await fetch('teacherdb', {
+            method: 'POST',
+            body: JSON.stringify(login),
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+            } )
+        if(logincreds){
+            res.cookie('loggedIn','true').cookie('userid',`${req.params.userid}`).cookie('password',`${req.params.password}`).cookie('type','teacher').send("Login success!")
+        }else{
+            res.cookie('loggedIn','false').cookie('userid','none',).cookie('password','none').cookie('type','none').send("Login failed")
+        }  
+    }else if(req.params.type==='student'){
+                const login = { userid: req.params.userid,
+                                password: req.params.password
+                        }
+                const logincreds = await fetch('studentdb', {
+                    method: 'POST',
+                    body: JSON.stringify(login),
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                    } )
+                if(logincreds){
+                    res.cookie('loggedIn','true').cookie('userid',`${req.params.userid}`).cookie('password',`${req.params.password}`).cookie('type','student').send("Login success!")
+                }else{
+                    res.cookie('loggedIn','false').cookie('userid','none',).cookie('password','none').cookie('type','none').send("Login failed")
+                }  
+    }else {
+        res.cookie('loggedIn','false').cookie('userid','none').cookie('password','none').cookie('type','none').send(false)
+    }
+}
 const getForums = (req,res) => {
     
     pool.query("SELECT * FROM forums;", (err,result) => {
@@ -90,5 +168,7 @@ module.exports = {
     getComments,
     addComment,
     addPost,
-    createForum
+    createForum,
+   loginCheck,
+   performLogin
     };
