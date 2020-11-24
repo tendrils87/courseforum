@@ -20,7 +20,7 @@ class AddPost extends React.Component {
                         forumid:this.props.forumid.toString(),
                         content:this.state.content.toString()
         }
-        await fetch('http://localhost:3001/createpost', {
+        await fetch('http://localhost:4001/createpost', {
             method: 'POST',
             body:JSON.stringify(post),
             headers: { 'Content-Type': 'application/json' }

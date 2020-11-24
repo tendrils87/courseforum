@@ -11,7 +11,7 @@ import uuid from 'react-uuid'
 class App extends React.Component {
   state={loggedIn:false}
 async loginHandler(){
-  const response= await fetch('http://localhost:3001/login')
+  const response= await fetch('http://localhost:4001/login')
   const login=await response.json()
   console.log(login)
   this.setState({loggedIn: login})
@@ -20,7 +20,7 @@ async componentDidMount(){
   this.loginHandler();
 }
 async performLogin(username,password,type){
-  await fetch(`http://localhost:3001/performlogin/${username}/${password}/${type}`)
+  await fetch(`http://localhost:4001/performlogin/${username}/${password}/${type}`)
   this.loginHandler();
 }
 render(){  

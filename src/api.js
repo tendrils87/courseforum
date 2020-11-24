@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const cookieParser = require('cookie-parser')
 const express = require('express')
 const app = express()
-const port = 3001
+const port = 4001
 
 const db = require('./queries');
 
@@ -28,4 +28,4 @@ app.post('/addcomment',db.addComment)
 
 
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+app.listen(port, () => console.log(`Form app listening at http://localhost:${port}`))

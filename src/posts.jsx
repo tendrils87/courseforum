@@ -14,7 +14,7 @@ class Post extends React.Component{
 
     async componentDidMount(){
         const { match: { params } } = this.props;
-        const postdata=await fetch(`http://localhost:3001/posts/${params.forumid}`)
+        const postdata=await fetch(`http://localhost:4001/posts/${params.forumid}`)
         const postlist=await postdata.json()
         this.setState({posts: this.state.posts.concat(postlist)})
     }

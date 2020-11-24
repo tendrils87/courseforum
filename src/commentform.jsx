@@ -22,7 +22,7 @@ class CommentForm extends React.Component {
                         postid:this.props.postid.toString(),
                         content:this.state.content
         }
-        await fetch('http://localhost:3001/addcomment', {
+        await fetch('http://localhost:4001/addcomment', {
             method: 'POST',
             body:JSON.stringify(comment),
             headers: { 'Content-Type': 'application/json' }

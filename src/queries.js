@@ -61,7 +61,7 @@ const performLogin = async (req,res) => {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
             } )
-        if(logincreds){
+        if(res.status()===200){
             res.cookie('loggedIn','true').cookie('userid',`${req.params.userid}`).cookie('password',`${req.params.password}`).cookie('type','teacher').send("Login success!")
         }else{
             res.cookie('loggedIn','false').cookie('userid','none',).cookie('password','none').cookie('type','none').send("Login failed")
@@ -70,13 +70,13 @@ const performLogin = async (req,res) => {
                 const login = { userid: req.params.userid,
                                 password: req.params.password
                         }
-                const logincreds = await fetch('studentdb', {
+                    await fetch(`http://localhost:6004/?username=${userid}&password=${password}`, {
                     method: 'POST',
                     body: JSON.stringify(login),
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                     } )
-                if(logincreds){
+                if(res.status()===200){
                     res.cookie('loggedIn','true').cookie('userid',`${req.params.userid}`).cookie('password',`${req.params.password}`).cookie('type','student').send("Login success!")
                 }else{
                     res.cookie('loggedIn','false').cookie('userid','none',).cookie('password','none').cookie('type','none').send("Login failed")

@@ -11,7 +11,7 @@ class Forum extends React.Component{
        forums:[]
    }
     async componentDidMount(){
-        const forumdata=await fetch('http://localhost:3001/forums')
+        const forumdata=await fetch('http://localhost:4001/forums')
         const forumlist=await forumdata.json()
         this.setState({forums: this.state.forums.concat(forumlist)})
     }

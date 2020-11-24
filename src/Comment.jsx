@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import CommentForm from './commentform'
 import uuid from 'react-uuid'
 import './comment.css'
@@ -15,7 +15,7 @@ class Comment extends React.Component {
        handle: 1
    }
    async fetcher(){
-        const commentdata = await fetch(`http://localhost:3001/comments/${this.props.postid}/${this.props.parentid}`)
+        const commentdata = await fetch(`http://localhost:4001/comments/${this.props.postid}/${this.props.parentid}`)
         const commentlist = await commentdata.json()
         this.setState({comments: commentlist, handle: 1})
    }
@@ -58,4 +58,5 @@ class Comment extends React.Component {
         )
     }
 }
-export default Comment
+const Commentz= memo(Comment)
+export default Commentz
