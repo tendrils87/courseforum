@@ -135,8 +135,8 @@ const addComment = (req, res) =>  {
 }
 const addPost = (req, res) =>  {
     const post = req.body;
-    if(post.postid && post.forumid && post.userid && post.content){
-        pool.query("INSERT INTO posts (postid, forumid, userid, content) VALUES ($1, $2, $3, $4);", [post.postid, post.forumid, post.userid, post.content], (err, result) => {
+    if(post.forumid && post.userid && post.content){
+        pool.query("INSERT INTO posts (forumid, userid, content) VALUES ($1, $2, $3);", [post.forumid, post.userid, post.content], (err, result) => {
             if(err){
                 throw err;
             }

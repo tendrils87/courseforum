@@ -1,7 +1,7 @@
 import React from 'react'
 import Comment from './comments'
 import {BrowserRouter as Router,Switch,Link, Route} from "react-router-dom"
-
+import AddPost from './AddPost'
 const fetch=require('node-fetch')
 
 class Post extends React.Component{
@@ -22,6 +22,7 @@ class Post extends React.Component{
     render(){
         return(
             <div>
+            <AddPost forumid={this.props.match.params.forumid} userid={1} />
             {this.state.posts.map((post)=> (
                 <div>
                     <li>
